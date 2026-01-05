@@ -3,8 +3,10 @@
 ## Usage
 ```nix
 {
-  inputs.minecraft-server.url = "github:hexolexo/The_Wonderland_SMP";
-
+  inputs = {
+        nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
+        minecraft-server.url = "github:hexolexo/The_Forgotten_Wonderland_SMP";
+  };
   outputs = {
     self,
     nixpkgs,

@@ -1,4 +1,3 @@
-# flake.nix
 {
   description = "Minecraft server configuration module";
 
