@@ -71,7 +71,6 @@
               spawn-protection = 0;
               view-distance = 6;
               enable-rcon = true;
-              white-list = true;
               enforce-whitelist = true;
               "rcon.password" = secrets.RCON_Password;
               "rcon.port" = 16260;
