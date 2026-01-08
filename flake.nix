@@ -72,6 +72,7 @@
               view-distance = 6;
               enable-rcon = true;
               enforce-whitelist = true;
+              "rcon.password" = builtins.readFile secrets.RCON_Password;
               "rcon.port" = 16260;
             };
             symlinks = {
@@ -92,14 +93,6 @@
           enable = true;
           allowedTCPPorts = [25565 51820];
           interfaces.wg0.allowedTCPPorts = [16260];
-        };
-        systemd.services."minecraft-server-communityMCserver" = {
-          preStart = let
-            rconPasswordPath = secrets.RCON_Password;
-          in ''
-            RCON_PASS=$(cat ${rconPasswordPath})
-            sed -i "s|rcon.password=.*|rcon.password=$RCON_PASS|" server.properties
-          '';
         };
       };
     };
