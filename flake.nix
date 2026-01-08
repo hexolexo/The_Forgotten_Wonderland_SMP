@@ -72,7 +72,7 @@
               view-distance = 6;
               enable-rcon = true;
               enforce-whitelist = true;
-              "rcon.password" = builtins.readFile secrets.RCON_Password;
+              "rcon.password" = "";
               "rcon.port" = 16260;
             };
             symlinks = {
@@ -93,6 +93,22 @@
           enable = true;
           allowedTCPPorts = [25565 51820];
           interfaces.wg0.allowedTCPPorts = [16260];
+        };
+        systemd.services."minecraft-server-communityMCserver" = {
+          serviceConfig.ExecStartPre = let
+            rconPasswordPath = secrets.RCON_Password;
+            script = pkgs.writeShellScript "set-rcon-pass" ''
+              cd /var/lib/minecraft-servers/communityMCserver  # WARN: Adjust path to match your dataDir
+
+              # Wait for properties file to exist
+              while [ ! -f server.properties ]; do
+                sleep 0.5
+              done
+
+              RCON_PASS=$(cat ${rconPasswordPath})
+              sed -i "s|rcon.password=.*|rcon.password=$RCON_PASS|" server.properties
+            '';
+          in "+${script}";
         };
       };
     };
