@@ -91,7 +91,7 @@
 
         networking.firewall = {
           enable = true;
-          allowedTCPPorts = [25565 51820];
+          allowedTCPPorts = [25565 51820 16260];
           interfaces.wg0.allowedTCPPorts = [16260];
         };
         systemd.services."minecraft-server-communityMCserver" = {
