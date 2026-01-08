@@ -72,7 +72,6 @@
               view-distance = 6;
               enable-rcon = true;
               enforce-whitelist = true;
-              "rcon.password" = secrets.RCON_Password;
               "rcon.port" = 16260;
             };
             symlinks = {
