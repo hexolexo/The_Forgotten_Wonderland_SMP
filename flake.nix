@@ -95,20 +95,16 @@
           interfaces.wg0.allowedTCPPorts = [16260];
         };
         systemd.services."minecraft-server-communityMCserver" = {
-          serviceConfig.ExecStartPre = let
+          preStart = let
             rconPasswordPath = secrets.RCON_Password;
-            script = pkgs.writeShellScript "set-rcon-pass" ''
-              cd /var/lib/minecraft-servers/communityMCserver  # WARN: Adjust path to match your dataDir
-
-              # Wait for properties file to exist
-              while [ ! -f server.properties ]; do
-                sleep 0.5
-              done
-
+          in ''
+            # server.properties gets created by the module's preStart script above us
+            # This runs after that, so file should exist
+            if [ -f server.properties ]; then
               RCON_PASS=$(cat ${rconPasswordPath})
               sed -i "s|rcon.password=.*|rcon.password=$RCON_PASS|" server.properties
-            '';
-          in "+${script}";
+            fi
+          '';
         };
       };
     };
